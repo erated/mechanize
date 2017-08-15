@@ -103,9 +103,8 @@ class Mechanize::Page < Mechanize::File
     parser = self.parser unless parser
     return false if parser.errors.empty?
     parser.errors.any? do |error|
-      error.message =~ /(indicate\ encoding)|
-                        (Invalid\ char)|
-                        (input\ conversion\ failed)/x
+      error_message = error.message.encode('utf-8', invalid: :replace, replace: '')
+      error_message =~ /(indicate\ encoding)|(Invalid\ char)|(input\ conversion\ failed)/x
     end
   end
 
